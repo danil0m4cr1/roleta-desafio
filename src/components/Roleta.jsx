@@ -29,7 +29,7 @@ function Roleta(){
 
     const [angulo, setAngulo] = useState(0);
     const [premio, setPremio] = useState('');
-    const [girar, setGirar] = useState();
+    const [girar, setGirar] = useState(true);
     const [telaPremio, setTelaPremio] = useState('hidden');
 
     function pegarHorario(){
@@ -48,6 +48,7 @@ function Roleta(){
 
         if(h >= 13 && h <= 17){ // Verifica horários entre 13-17
             if(h != 17 || h == 17 && min <= 10){ // Verifica até os ultimos minutos - 17:10
+                setGirar(true);
                 premios.map((premio, ind) => {
                     const [h2, m2, s2] = premio.horario.split(':');
                     const horarioPremio = `${h2}${m2}${s2}`;
@@ -58,7 +59,9 @@ function Roleta(){
                 });
                 return premioAtual;
             }
+            setGirar(false);
         } else {
+            setGirar(false);
             return premioAtual;
         };
     }
@@ -81,10 +84,6 @@ function Roleta(){
             setAngulo(novoAngulo);
             setPremio(premios[indice]);
 
-            const hoje = new Date().toDateString();
-            localStorage.setItem('giroDiario', hoje);
-            setGirar(false);
-
             const telaPremio = setInterval(()=>{ // Mostra a janela de premio recebido
                 setTelaPremio('premio');
                 clearInterval(telaPremio);
@@ -92,25 +91,14 @@ function Roleta(){
         }
     }
 
-    useEffect(() => { // Garante que o usuário gire uma única vez no evento
-        const hoje = new Date().toDateString();
-        const giroDiario = localStorage.getItem('giroDiario');
-        const { horarioAtual } = pegarHorario();
-        const horarioInicio = '130000';
-        const horarioFim = '171000';
-
-        if (giroDiario !== hoje && giroDiario === null
-            && horarioAtual >= horarioInicio && horarioAtual <= horarioFim) {
-            setGirar(true);
-            
-        } else {
-            setGirar(false);
-        }
-    }, []);
-
+    const { h, min } = pegarHorario();
     let disponivel = '';
-    if(girar){ // Classes para disponibilidade da funcionalidade de giro
-        disponivel = 'disponivel';
+    if(h >= 13 && h <= 17){ // Classes para disponibilidade da funcionalidade de giro
+        if(h == 17 && min > 10){
+            disponivel = 'ndisponivel';
+        } else {
+            disponivel = 'disponivel';
+        }
     } else {
         disponivel = 'ndisponivel';
     };
