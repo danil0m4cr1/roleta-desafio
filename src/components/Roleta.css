@@ -1,0 +1,230 @@
+html { overflow: hidden; }
+
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0b011b;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 42px;
+    color: rgb(209, 209, 209);
+}
+
+.roleta {
+    position: relative; 
+    width: 650px;
+}
+
+.circle {
+    width: 100%;
+    height: 650px;
+    border-radius: 50%;
+    border: 15px solid #000000;
+    box-shadow: 0 0 30px #5d00ff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 4s cubic-bezier(0.1, 0.03, 0, 1);
+}
+
+.pointer {
+    width: 80px;
+    height: 80px;
+    background-color: black;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.pointer::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid black;
+    position: relative;
+    bottom: 42px;
+    right: -10px;
+}
+
+.pointer span {
+    font-size: 26px;
+    position: relative;
+    top: 22px;
+    right: 48px;
+}
+
+.disponivel {color: white; cursor: pointer;}
+
+.ndisponivel {color: gray; cursor: auto;}
+
+.segment {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: bottom right;
+    clip-path: polygon(0 0, 59% 0, 100% 100%, 0 59%);
+}
+
+.segment p {
+    transform: rotate(45deg);
+    font-size: 24px;
+}
+
+.one { background: #f44336; transform: rotate(calc(36deg * 0)); }
+
+.two { background: #e91e63; transform: rotate(calc(36deg * 1)); }
+
+.three { background: #9c27b0; transform: rotate(calc(36deg * 2)); }
+
+.four { background: #673ab7; transform: rotate(calc(36deg * 3)); }
+
+.five { background: #3f51b5; transform: rotate(calc(36deg * 4)); }
+
+.six { background: #2196f3; transform: rotate(calc(36deg * 5)); }
+
+.seven { background: #03a9f4; transform: rotate(calc(36deg * 6)); }
+
+.eight { background: #009688; transform: rotate(calc(36deg * 7)); }
+
+.nine { background: #4caf50; transform: rotate(calc(36deg * 8)); }
+
+.ten { background: #ff9800; transform: rotate(calc(36deg * 9)); }
+
+.hidden { display: none; }
+
+.premio {
+    max-width: 600px;
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 25px;
+    opacity: 1;
+    animation: aparecer .8s ease-in-out;
+    z-index: 10;
+}
+
+.premio-content {
+    position: relative;
+    top: 50%;
+    transform: translate(0, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.premio-content h1 {
+    font-size: 30px;
+    padding-top: 1rem;
+    margin: 0;
+}
+
+.premio-content img {
+    width: 150px;
+    transform: rotate(5deg);
+    position: relative;
+    animation: levitando 1.5s infinite;
+}
+
+@keyframes levitando {
+    0% {top: 0;}
+    50% {top: 4px;}
+    100% {top: 0;}
+}
+
+.premio-content p {
+    padding: 1rem 0 0 0;
+    font-size: 22px;
+    color: rgb(192, 192, 192);
+    text-align: center;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.button button {
+    width: 150px;
+    height: 38px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    border: 1px solid white;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.button button:hover {background-color: rgba(0, 0, 0, 0.7);}
+
+@keyframes aparecer{
+    0% {opacity: 0};
+    100% {opacity: 1;}
+}
+
+/* Falta deixar responsivo */
+@media screen and (max-width: 375px){
+    .pointer {
+        width: 120px;
+        height: 120px;
+    }
+
+    .pointer::before {
+        border-left: 40px solid transparent;
+        border-right: 40px solid transparent;
+        border-bottom: 40px solid black;
+        bottom: 42px;
+        right: -20px;
+    }
+
+    .pointer span {
+        top: 40px;
+        right: 48px;
+    }
+}
+
+@media screen and (max-width: 580px){
+    div.roleta {scale: 0.45;}
+
+    .premio {height: 600px;}
+}
+
+@media screen and (max-width: 768px){
+    .container {padding: 0 2rem;}
+
+    .roleta {scale: 0.75;}
+
+    .premio {width: 80%;}
+}
